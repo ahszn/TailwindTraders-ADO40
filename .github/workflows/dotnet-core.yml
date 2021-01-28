@@ -3,7 +3,9 @@ name: .NET Core
 on:
   push:
     branches: [ main ]
-  
+    paths-ignore:
+    - ".github/workflows/**"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -51,6 +53,7 @@ jobs:
         path: "./Source/Tailwind.Traders.Web/staging"
     
   deploy:
+    environment: Production
     needs: build
     runs-on: ubuntu-18.04
     env:
