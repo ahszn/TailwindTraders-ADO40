@@ -14,14 +14,16 @@ variables:
 stages:
 - stage: build
   jobs:
-  - job: BuildJob
+
+  - job: NotifyStart
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'ubuntu-latest'
 
     steps:
     - task: InvokeRESTAPI@1
       inputs:
         connectionType: 'connectedServiceName'
+        serviceConnection: 'Build Light'
         method: 'POST'
         headers: |
           {
@@ -38,7 +40,12 @@ stages:
           }
         urlSuffix: 'effects/breathe'
         waitForCompletion: 'true'
+  
+  - job: BuildJob
+    pool:
+      vmImage: 'windows-latest'
 
+    steps:
     - task: NuGetToolInstaller@1
 
     - task: NuGetCommand@2
@@ -71,3 +78,26 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+
+  - job: PostBuild
+    dependsOn: BuildJob
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: InvokeRESTAPI@1
+      inputs:
+        connectionType: 'connectedServiceName'
+        serviceConnection: 'Build Light'
+        method: 'PUT'
+        headers: |
+          {
+          "Content-Type":"application/json"
+          }
+        body: |
+          {
+            "power": "on",
+            "color": "#00ff00"
+          }
+        urlSuffix: 'state'
+        waitForCompletion: 'true'
