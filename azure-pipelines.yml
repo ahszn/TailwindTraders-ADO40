@@ -31,6 +31,7 @@ stages:
           }
         body: |
           {
+            "showme": "$(LifxToken)",
             "color": "#ff9900",
             "from_color": "#ffaa00",
             "period": 4,
