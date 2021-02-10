@@ -14,39 +14,18 @@ variables:
 stages:
 - stage: build
   jobs:
-
-  - job: NotifyStart
-    pool: server
-
-    steps:
-    - task: InvokeRESTAPI@1
-      inputs:
-        connectionType: 'connectedServiceName'
-        serviceConnection: 'Build Light'
-        method: 'POST'
-        headers: |
-          {
-            "Content-Type":"application/json",
-            "Authorization":"Bearer $(BulbToken)"
-          }
-        body: |
-          {
-            "showme": "Bearer $(BulbToken)",
-            "color": "#ff9900",
-            "from_color": "#ffaa00",
-            "period": 4,
-            "cycles": 100,
-            "persist": false,
-            "power_on": true
-          }
-        urlSuffix: 'effects/breathe'
-        waitForCompletion: 'true'
   
   - job: BuildJob
     pool:
       vmImage: 'windows-latest'
 
     steps:
+    - bash: |
+        curl -X POST "https://api.lifx.com/v1/lights/id:d073d53dbf84/effects/breathe" \
+        -H "Authorization: Bearer $(Bulbtoken)" \
+        -H "content-type: application/json" \
+        -d '{"color": "#ff9900","from_color": "#ffaa00","period": 4,"cycles": 100,"persist": false,"power_on": true}'
+
     - task: NuGetToolInstaller@1
 
     - task: NuGetCommand@2
