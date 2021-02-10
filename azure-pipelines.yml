@@ -16,8 +16,7 @@ stages:
   jobs:
 
   - job: NotifyStart
-    pool:
-      vmImage: 'ubuntu-latest'
+    pool: server
 
     steps:
     - task: InvokeRESTAPI@1
@@ -81,8 +80,7 @@ stages:
 
   - job: PostBuild
     dependsOn: BuildJob
-    pool:
-      vmImage: 'ubuntu-latest'
+    pool: server
 
     steps:
     - task: InvokeRESTAPI@1
