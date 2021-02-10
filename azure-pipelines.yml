@@ -64,11 +64,11 @@ stages:
         -H "Authorization: Bearer $(LifxToken)" \
         -H "content-type: application/json" \
         -d '{"color": "#00ff00","power": "on"}'
-        condition: succeeded()
+      condition: succeeded()
 
     - bash: |
         curl -X PUT "https://api.lifx.com/v1/lights/$(LifxId)/state" \
         -H "Authorization: Bearer $(LifxToken)" \
         -H "content-type: application/json" \
         -d '{"color": "#ff0000","power": "on"}'
-    condition: failed()
+      condition: failed()
