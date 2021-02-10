@@ -19,6 +19,25 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
+    - task: InvokeRESTAPI@1
+      inputs:
+        connectionType: 'connectedServiceName'
+        method: 'POST'
+        headers: |
+          {
+          "Content-Type":"application/json"
+          }
+        body: |
+          {
+            "color": "#ff9900",
+            "from_color": "#ffaa00",
+            "period": 4,
+            "cycles": 100,
+            "persist": false,
+            "power_on": true
+          }
+        urlSuffix: 'effects/breathe'
+        waitForCompletion: 'true'
 
     - task: NuGetToolInstaller@1
 
