@@ -21,8 +21,8 @@ stages:
 
     steps:
     - bash: |
-        curl -X POST "https://api.lifx.com/v1/lights/id:d073d53dbf84/effects/breathe" \
-        -H "Authorization: Bearer $(Bulbtoken)" \
+        curl -X POST "https://api.lifx.com/v1/lights/$(LifxId)/effects/breathe" \
+        -H "Authorization: Bearer $(LifxToken)" \
         -H "content-type: application/json" \
         -d '{"color": "#ff9900","from_color": "#ffaa00","period": 4,"cycles": 100,"persist": false,"power_on": true}'
 
@@ -59,25 +59,16 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-  - job: PostBuild
-    dependsOn: BuildJob
-    pool: server
+    - bash: |
+        curl -X PUT "https://api.lifx.com/v1/lights/$(LifxId)/state" \
+        -H "Authorization: Bearer $(LifxToken)" \
+        -H "content-type: application/json" \
+        -d '{"color": "#00ff00","power": "on"}'
+        condition: succeeded()
 
-    steps:
-    - task: InvokeRESTAPI@1
-      inputs:
-        connectionType: 'connectedServiceName'
-        serviceConnection: 'Build Light'
-        method: 'PUT'
-        headers: |
-          {
-            "Content-Type":"application/json",
-            "Authorization":"Bearer $(BulbToken)"
-          }
-        body: |
-          {
-            "power": "on",
-            "color": "#00ff00"
-          }
-        urlSuffix: 'state'
-        waitForCompletion: 'true'
+    - bash: |
+        curl -X PUT "https://api.lifx.com/v1/lights/$(LifxId)/state" \
+        -H "Authorization: Bearer $(LifxToken)" \
+        -H "content-type: application/json" \
+        -d '{"color": "#ff0000","power": "on"}'
+    condition: failed()
