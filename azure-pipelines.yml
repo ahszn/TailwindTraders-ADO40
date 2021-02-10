@@ -27,11 +27,10 @@ stages:
         headers: |
           {
             "Content-Type":"application/json",
-            "Authorization":"Bearer $(LifxToken)"
+            "Authorization":"Bearer $(BulbToken)"
           }
         body: |
           {
-            "showme": "$(LifxToken)",
             "color": "#ff9900",
             "from_color": "#ffaa00",
             "period": 4,
@@ -93,7 +92,7 @@ stages:
         headers: |
           {
             "Content-Type":"application/json",
-            "Authorization":"Bearer $(LifxToken)"
+            "Authorization":"Bearer $(BulbToken)"
           }
         body: |
           {
