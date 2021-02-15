@@ -57,16 +57,16 @@ stages:
      runOnce:
        deploy:
         steps:
-        - task: DownloadBuildArtifacts@0
+        - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
-            downloadType: 'single'
             artifactName: 'Drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
+            targetPath: '$(Pipeline.Workspace)'
+            
         - task: AzureWebApp@1
           inputs:
             azureSubscription: 'ca-dabrady-demo-test(bc202ec2-54ef-4576-b7fb-a961c983398e)'
             appType: 'webAppLinux'
             appName: 'TailwindTraders-ADO40'
-            package: '$(System.ArtifactsDirectory)/**/*.zip'
+            package: '$(Pipeline.Workspace)/**/*.zip'
             runtimeStack: 'DOTNETCORE|2.1'
