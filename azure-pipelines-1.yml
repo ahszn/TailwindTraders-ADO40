@@ -60,9 +60,9 @@ stages:
         - task: DownloadPipelineArtifact@1
           inputs:
             buildType: 'current'
-            downloadType: 'single'
             artifactName: 'Drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
+            targetPath: '$(Pipeline.Workspace)'
+            
         - task: AzureWebApp@1
           inputs:
             azureSubscription: 'ca-dabrady-demo-test(bc202ec2-54ef-4576-b7fb-a961c983398e)'
