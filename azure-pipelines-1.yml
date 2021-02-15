@@ -68,5 +68,5 @@ stages:
             azureSubscription: 'ca-dabrady-demo-test(bc202ec2-54ef-4576-b7fb-a961c983398e)'
             appType: 'webAppLinux'
             appName: 'TailwindTraders-ADO40'
-            package: '$(System.ArtifactsDirectory)/**/Tailwind.Traders.Web.zip'
+            package: '$(Pipeline.Workspace)/**/Tailwind.Traders.Web.zip'
             runtimeStack: 'DOTNETCORE|2.1'
