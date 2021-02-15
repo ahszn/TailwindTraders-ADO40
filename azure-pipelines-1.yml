@@ -44,7 +44,7 @@ stages:
     
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(build.artifactStagingDirectory)'
+        targetPath: '$(build.artifactStagingDirectory)/Tailwind.Traders.Web.zip'
         artifact: 'Drop'
         publishLocation: 'pipeline'
     
