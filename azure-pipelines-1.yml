@@ -61,12 +61,12 @@ stages:
           inputs:
             buildType: 'current'
             artifactName: 'Drop'
-            targetPath: '$(Pipeline.Workspace)'
+            targetPath: '$(Pipeline.Workspace)/artifacts'
             
         - task: AzureWebApp@1
           inputs:
             azureSubscription: 'ca-dabrady-demo-test(bc202ec2-54ef-4576-b7fb-a961c983398e)'
             appType: 'webAppLinux'
             appName: 'TailwindTraders-ADO40'
-            package: '$(Pipeline.Workspace)/**/Tailwind.Traders.Web.zip'
+            package: '$(Pipeline.Workspace)/artifacts/**/Tailwind.Traders.Web.zip'
             runtimeStack: 'DOTNETCORE|2.1'
