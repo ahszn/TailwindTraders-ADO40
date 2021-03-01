@@ -9,6 +9,7 @@ stages:
       vmImage: ubuntu-latest
 
     steps:
+    - checkout: none
     - bash: |
         curl -X POST "https://api.lifx.com/v1/lights/$(LifxId)/effects/breathe" \
         -H "Authorization: Bearer $(LifxToken)" \
